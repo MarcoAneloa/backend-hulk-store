@@ -27,6 +27,37 @@ public class Product implements Serializable {
 	
 	private Integer stock;
 	
+	private String description;
+	
+	private String img;
+	
+	private Boolean bestseller;
+	
+		
+	public Boolean getBestseller() {
+		return bestseller;
+	}
+
+	public void setBestseller(Boolean bestseller) {
+		this.bestseller = bestseller;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
+	}
+
 	@ManyToOne
 	@JoinColumn(name = "id_category", nullable = false, foreignKey = @ForeignKey(name = "fk_product_category"))
 	private ProductCategory category;

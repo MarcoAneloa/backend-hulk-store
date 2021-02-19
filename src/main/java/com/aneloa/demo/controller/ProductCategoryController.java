@@ -21,46 +21,48 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.aneloa.demo.ModeloNotFoundException;
 import com.aneloa.demo.entity.Product;
+import com.aneloa.demo.entity.ProductCategory;
+import com.aneloa.demo.service.IProductCategoryService;
 import com.aneloa.demo.service.IProductService;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/categories")
 @CrossOrigin(origins = "*")
-public class ProductController {
+public class ProductCategoryController {
 
 	@Autowired
-	private IProductService service;
+	private IProductCategoryService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Product>> listar(){
-		List<Product> lista = service.listAll();
-		return new ResponseEntity<List<Product>>(lista, HttpStatus.OK);
+	public ResponseEntity<List<ProductCategory>> listar(){
+		List<ProductCategory> lista = service.listAll();
+		return new ResponseEntity<List<ProductCategory>>(lista, HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> listarPorId(@PathVariable("id") Integer id) {
-		Product obj = service.listId(id);	
+		ProductCategory obj = service.listId(id);	
 		Map<String, Object> response = new HashMap<>();
-		if(obj.getId() == null) {	
+		if(obj.getId_category()== null) {	
 			response.put("mensaje", "Producto no existe");
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<Product>(obj, HttpStatus.OK);
+		return new ResponseEntity<ProductCategory>(obj, HttpStatus.OK);
 	}
 	
 
 	@PostMapping
-	public ResponseEntity<Object> registrar(@RequestBody Product objeto) {
-		Product obj = service.save(objeto);
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+	public ResponseEntity<Object> registrar(@RequestBody ProductCategory objeto) {
+		ProductCategory obj = service.save(objeto);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId_category()).toUri();
 		return ResponseEntity.created(location).build();
 	}
 	
-	@PutMapping
-	public ResponseEntity<Product> modificar(@RequestBody Product objeto) {
-		Product obj = service.update(objeto);
-		return new ResponseEntity<Product>(obj, HttpStatus.OK);
-	}
+	@PutMapping	
+	public ResponseEntity<ProductCategory> modificar(@RequestBody ProductCategory objeto) {
+		ProductCategory obj = service.update(objeto);
+		return new ResponseEntity<ProductCategory>(obj, HttpStatus.OK);
+	}	
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> eliminar(@PathVariable("id") Integer id) {
